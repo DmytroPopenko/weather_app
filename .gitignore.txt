@@ -1,0 +1,3 @@
+/WeatherApp/.idea
+/WeatherApp/venv
+/WeatherApp/main/__pycache__
