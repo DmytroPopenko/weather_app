@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="input-group mb-3 py-2">
+        {% csrf_token %}
+        {{ form.name }}
+        <datalist id="names">
+            {% for el in el_set %}
+            <option value="{{ el }}">
+            {% endfor %}
+        </datalist>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+    {% if conclusion.message == 'city not found' %}
+        <h1>404: city not found</h1>
+    {% else %}
+        <div class="{% if conclusion.message %}d-block{% else %}d-none{% endif %}">
+            <div class="row">
+                <div class="col-1">
+                    <img src="https://openweathermap.org/img/w/{{ conclusion.info.icon }}.png" class="rounded float-right" alt="icon">
+                </div>
+                <div class="col-11">
+                    <h2>{{ conclusion.message }} ({{ conclusion.info.country }})</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h4>Temperature: {{ conclusion.info.temp }}°C</h4>
+                    <h4>Feels like: {{ conclusion.info.feels_like }}°C</h4>
+                    <h4>Humidity: {{ conclusion.info.humidity }}%</h4>
+                </div>
+                <div class="col-6">
+                    <h4>Visibility: {{ conclusion.info.visibility }}m</h4>
+                    <h4>Pressure: {{ conclusion.info.pressure }}hPa</h4>
+                    <h4>Wind: {{ conclusion.info.wind }}m/s</h4>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
